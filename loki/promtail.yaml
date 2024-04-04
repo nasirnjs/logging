@@ -16,7 +16,7 @@ scrape_configs:
     pipeline_stages:
       - cri: {}
       - match:
-          selector: '{app="api"}'
+          selector: '{app="web"}'
           stages:
             - json:
                 expressions:
