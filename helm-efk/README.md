@@ -3,7 +3,13 @@ helm install elasticsearch \
  --set service.type=LoadBalancer \
  --set volumeClaimTemplate.storageClassName=nfs-client \
  --set persistence.labels.enabled=true elastic/elasticsearch -n efk
- 
+ ===================================================================
+ kubectl create secret generic elasticsearch-certs \
+  --from-file=ca.crt=ca.crt \
+  --from-file=elasticsearch.crt=elasticsearch.crt \
+  --from-file=elasticsearch.key=elasticsearch.key \
+  --namespace=efk
+
 helm repo list
 helm search repo elastic
 helm show values elastic/elasticsearch > elasticsearch-values.yaml
@@ -11,22 +17,32 @@ helm install elasticsearch elastic/elasticsearch -f values-backup/elasticsearch-
 
 
 ==============================
-kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.username}' | base64 -d
-User Name:	elastic
-
-kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
-Password: wwNaWAYMKii423y7
+kubectl create secret generic fluentbit-certs \
+  --from-file=ca.crt=ca.crt \
+  --from-file=fluentbit.crt=fluentbit.crt \
+  --from-file=fluentbit.key=fluentbit.key \
+  --namespace=efk
 
 helm repo list
 helm search repo fluent
 helm show values fluent/fluent-bit > fluentbit-values.yaml
 helm install fluent-bit fluent/fluent-bit -f values-backup/fluentbit-values.yaml
 
+
+kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.username}' | base64 -d
+User Name:	elastic
+
+kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
+Password: wwNaWAYMKii423y7
+
 =============================================
 helm repo list
 helm search repo kibana
 helm show values elastic/kibana > kibana-values.yaml
 helm install kibana elastic/kibana -f values-backup/kibana-values.yaml
+
+
+
 
 
 
