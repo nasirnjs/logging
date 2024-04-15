@@ -7,7 +7,7 @@ helm install elasticsearch \
 helm repo list
 helm search repo elastic
 helm show values elastic/elasticsearch > elasticsearch-values.yaml
-helm install elasticsearch elastic/elasticsearch -f elasticsearch-values.yaml
+helm install elasticsearch elastic/elasticsearch -f values-backup/elasticsearch-values.yaml
 
 
 ==============================
@@ -20,15 +20,13 @@ Password: wwNaWAYMKii423y7
 helm repo list
 helm search repo fluent
 helm show values fluent/fluent-bit > fluentbit-values.yaml
-helm install fluent-bit fluent/fluent-bit -f fluentbit-values.yaml
+helm install fluent-bit fluent/fluent-bit -f values-backup/fluentbit-values.yaml
 
 =============================================
-
-
 helm repo list
 helm search repo kibana
 helm show values elastic/kibana > kibana-values.yaml
-helm install kibana elastic/kibana -f kibana-values.yaml
+helm install kibana elastic/kibana -f values-backup/kibana-values.yaml
 
 
 

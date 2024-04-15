@@ -21,7 +21,7 @@ roles:
   - remote_cluster_client
   - transform
 
-replicas: 3
+replicas: 2
 minimumMasterNodes: 2
 
 esMajorVersion: ""
@@ -144,15 +144,14 @@ persistence:
     enabled: false
   annotations: {}
 
-extraVolumes: []
-# - name: extras
-#   emptyDir: {}
-
-extraVolumeMounts: []
-# - name: extras
-#   mountPath: /usr/share/extras
-#   readOnly: true
-
+extraVolumeMounts:
+  - name: elasticsearch-cert
+    mountPath: /var/cert/
+    readOnly: true
+extraVolumes:
+  - name: elasticsearch-cert
+    secret:
+      secretName: elasticsearch-certs
 extraContainers: []
 # - name: do-something
 #   image: busybox

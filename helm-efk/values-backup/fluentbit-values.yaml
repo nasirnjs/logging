@@ -462,17 +462,17 @@ config:
 #           Host bar
 
 # The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
-volumes:
+extraVolumes:
   - name: certs-volume
     secret:
       secretName: fluentbit-certs
-volumeMounts:
-  - name: config
-    mountPath: /fluent-bit/etc/conf
+extraVolumeMounts:
   - name: certs-volume
     mountPath: /var/cert
     readOnly: true
-
+volumeMounts:
+  - name: config
+    mountPath: /fluent-bit/etc/conf
 daemonSetVolumes:
   - name: varlog
     hostPath:
