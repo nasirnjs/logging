@@ -9,12 +9,12 @@ helm install elasticsearch \
   --from-file=elasticsearch.crt=elasticsearch.crt \
   --from-file=elasticsearch.key=elasticsearch.key \
   --namespace=efk
-
+```bash
 helm repo list
 helm search repo elastic
 helm show values elastic/elasticsearch > elasticsearch-values.yaml
 helm install elasticsearch elastic/elasticsearch -f values-backup/elasticsearch-values.yaml
-
+```
 
 ==============================
 kubectl create secret generic fluentbit-certs \
@@ -23,11 +23,12 @@ kubectl create secret generic fluentbit-certs \
   --from-file=fluentbit.key=fluentbit.key \
   --namespace=efk
 
+```bash
 helm repo list
 helm search repo fluent
 helm show values fluent/fluent-bit > fluentbit-values.yaml
 helm install fluent-bit fluent/fluent-bit -f values-backup/fluentbit-values.yaml
-
+```
 
 kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath='{.data.username}' | base64 -d
 User Name:	elastic
@@ -36,11 +37,12 @@ kubectl get secrets --namespace=efk elasticsearch-master-credentials -ojsonpath=
 Password: wwNaWAYMKii423y7
 
 =============================================
+```bash
 helm repo list
 helm search repo kibana
 helm show values elastic/kibana > kibana-values.yaml
 helm install kibana elastic/kibana -f values-backup/kibana-values.yaml
-
+```
 
 
 
@@ -77,3 +79,7 @@ openssl x509 -req -in fluentbit.csr -CA ca.crt -CAkey ca.key -out fluentbit.crt 
 
 
 helm show values fluent/fluent-bit > fluentbit-values.yaml
+
+
+
+curl -XGET https://172.17.17.45:9200 --cacert ca.crt --cert fluentbit.crt --key fluentbit.key -v

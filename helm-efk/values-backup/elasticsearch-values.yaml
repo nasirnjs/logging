@@ -36,6 +36,7 @@ esConfig:
     xpack.security.transport.ssl.key: /var/cert/elasticsearch.key
     xpack.security.transport.ssl.certificate: /var/cert/elasticsearch.crt
     xpack.security.transport.ssl.certificate_authorities: ["/var/cert/ca.crt"]
+    xpack.security.http.ssl.client_authentication: "required"
 #  elasticsearch.yml: |
 #    key:
 #      nestedkey: value
